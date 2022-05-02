@@ -1,0 +1,97 @@
+<!DOCTYPE>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title>qwe notes</title>
+	<style type="text/css">
+		body {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+		}
+
+		textarea {
+			width: 100%;
+			min-height: 100%;
+			border: none;
+			outline: none;
+			font-weight: 100;
+			padding: 10px;
+			font-family: 'Noto Sans JP', sans-serif;
+		}
+
+		#about {
+			display: none;
+		}
+
+		nav {
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			box-sizing: border-box;
+			width: 100%;
+			height: 2rem;
+			padding: 0 0.5em;
+			background-color: #eee;
+			border-top: 1px solid silver;
+			line-height: 2rem;
+			color: gray;
+			font-family: sans-serif;
+			font-size: 85%;
+		}
+	</style>
+</head>
+
+<body data-new-gr-c-s-check-loaded="8.893.0" data-gr-ext-installed="" data-new-gr-c-s-loaded="8.893.0">
+	<div id="about">
+		<h1>Browserpad</h1>
+		<p>As the name indicates, Browserpad is a notepad in the browser.</p>
+		<p>It is a plain text editor built entirely with HTML, CSS and JavaScript.</p>
+		<p>(<a href="https://github.com/Browserpad/browserpad">source code available on github</a>)</p>
+	</div>
+
+	<textarea autofocus id="main" spellcheck="false" "></textarea>
+	<nav xmlns=" http://www.w3.org/1999/xhtml">
+		<span id="stats">
+			<span id="char-count">0</span> chars │
+			<span id="word-count">0</span> words │
+			<span id="line-count">0</span> lines |
+			<a href="https://github.com/ttakanawa/qwenotes"> GitHub </a>
+		</span>
+	</nav>
+
+	<script type="text/javascript">
+		window.onload = function () {
+			getNotes();
+			calcStats();
+		};
+
+		document.addEventListener('input', function () {
+			saveNotes();
+		})
+
+		function saveNotes() {
+			var textarea = document.getElementById("main").value;
+			localStorage.setItem(location.href, textarea);
+			calcStats();
+		}
+
+		function getNotes() {
+			document.getElementById("main").value = localStorage.getItem(location.href);
+		}
+
+		function calcStats() {
+			var textarea = document.querySelector('#main');
+			updateCount('char', textarea.value.length);
+			updateCount('word', textarea.value === "" ? 0 : textarea.value.replace(/\s+/g, ' ').split(' ').length);
+			updateCount('line', textarea.value === "" ? 0 : textarea.value.split(/\n/).length);
+		}
+
+		function updateCount(item, value) {
+			document.querySelector('#' + item + '-count').textContent = value;
+		}
+	</script>
+</body>
+
+</html>
